@@ -1,0 +1,103 @@
+[
+  {
+    "id": "1769621480654",
+    "firstName": "System",
+    "lastName": "Administrator",
+    "email": "admin@edumind.com",
+    "role": "admin",
+    "password": "$2b$10$3wnXIQEK6VuTcArOnGG8yOWektjctIGi0uyfUEwme8p9vT8jX4rAi",
+    "isFirstLogin": false,
+    "createdAt": "2026-01-28T17:31:20.655Z",
+    "status": "active"
+  },
+  {
+    "id": "1769621480753",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "role": "student",
+    "password": "$2b$10$N4AS9hjzB/AstM7ufGzNMOHWL1dtDtF1wlANtu/FCffcr0cswRSU2",
+    "isFirstLogin": true,
+    "createdAt": "2026-01-28T17:31:20.753Z",
+    "status": "active",
+    "rollNumber": "STU001",
+    "className": "10-A"
+  },
+  {
+    "id": "1769621984637",
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "parent@example.com",
+    "role": "parent",
+    "password": "$2b$10$QsGspfXskCTbufZqW6ieAOjrHI4w9i3nwaJTiJ2DXhr2iwsmLRb3G",
+    "isFirstLogin": true,
+    "createdAt": "2026-01-28T17:39:44.637Z",
+    "status": "active",
+    "children": [
+      {
+        "name": "Alice Smith",
+        "grade": "10-A"
+      }
+    ],
+    "relationship": "Father"
+  },
+  {
+    "id": "1769709961414",
+    "firstName": "Jagannath",
+    "lastName": "k",
+    "email": "laptopfreehp@gmail.com",
+    "phone": "7483837822",
+    "role": "parent",
+    "password": "$2b$10$sZfTYWIoE2sK7P.FMXQdf.njsF5/UMxBv/GG5pa6n.pIwGNpMexsO",
+    "isFirstLogin": true,
+    "createdAt": "2026-01-29T18:06:01.414Z",
+    "status": "active",
+    "children": [
+      {
+        "name": "Prajwal",
+        "className": "Class 6"
+      }
+    ],
+    "relationship": "Father"
+  },
+  {
+    "id": "1769710172924",
+    "firstName": "janaki",
+    "lastName": "k",
+    "email": "janakigond70@gmail.com",
+    "phone": "7676839249",
+    "role": "student",
+    "password": "$2b$10$wQtfElfI8wTHlXzLxbpaXeKuVJMf./imaxjoQiF5QioFqgwW7CXDG",
+    "isFirstLogin": true,
+    "createdAt": "2026-01-29T18:09:32.924Z",
+    "status": "active",
+    "rollNumber": "12",
+    "className": "Class 7"
+  },
+  {
+    "id": "1769711550438",
+    "firstName": "Affaq",
+    "lastName": "m",
+    "email": "mohammedaffaq1431@gmail.com",
+    "phone": "9019339857",
+    "role": "staff",
+    "password": "$2b$10$ZPjzk27VzRACGo5DGDLHJ.f16W1JZf5d.gNEAZ0CTPqakq8HWnudu",
+    "isFirstLogin": true,
+    "createdAt": "2026-01-29T18:32:30.438Z",
+    "status": "active",
+    "designation": "Principal"
+  },
+  {
+    "id": "1769745688046",
+    "firstName": "Vaisidmahi2",
+    "lastName": "j",
+    "email": "v2118215@gmail.com",
+    "role": "student",
+    "password": "$2b$10$wdXw6V7sgVMSuZ4tbCC94uep3yTXbHe1n0LF5tpPGI.B6oYi4OOp2",
+    "isFirstLogin": false,
+    "createdAt": "2026-01-30T04:01:28.046Z",
+    "status": "active",
+    "rollNumber": "45",
+    "className": "Class 8"
+  }
+]

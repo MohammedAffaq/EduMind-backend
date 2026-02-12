@@ -1,0 +1,17 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "EduMind API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/auth/login": {"post": {"summary": "Login"}},
+    "/api/auth/refresh": {"post": {"summary": "Refresh token"}},
+    "/api/auth/logout": {"post": {"summary": "Logout / revoke refresh token"}},
+    "/api/users": {"get": {"summary": "List users"}, "post": {"summary": "Create user (admin)"}},
+    "/api/trips": {"get": {"summary": "List trips"}, "post": {"summary": "Create trip"}},
+    "/api/trips/{id}/start": {"patch": {"summary": "Start trip"}},
+    "/api/trips/{id}/end": {"patch": {"summary": "End trip"}},
+    "/api/analytics": {"get": {"summary": "Analytics (admin)"}}
+  }
+}
