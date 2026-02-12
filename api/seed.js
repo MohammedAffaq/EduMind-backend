@@ -1,7 +1,7 @@
- require('dotenv').config();
+require('dotenv').config();
 const { connectDB } = require('./db');
 const User = require('./models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 async function seed() {
   await connectDB(process.env.MONGO_URI || 'mongodb://localhost:27017/edumind');

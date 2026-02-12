@@ -3,7 +3,7 @@ const { connectDB } = require('./db');
 const User = require('./models/User');
 const Task = require('./models/Task');
 const AuditLog = require('./models/AuditLog');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 async function seedTasks() {
   try {

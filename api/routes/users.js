@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../../models/User');
 const { requireAuth, requireRole } = require('../middleware/auth');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // GET /api/users - Get all users (Admin only)
 router.get('/', requireAuth, requireRole('admin'), async (req, res) => {

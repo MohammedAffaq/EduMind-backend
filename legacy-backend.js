@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +8,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 // Import student request functions
 const {
-   createStudentRequest,
+  createStudentRequest,
   getPendingRequests,
   getAllRequests,
   approveRequest,
@@ -87,7 +87,7 @@ async function saveMarks() {
 const isAdmin = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if(!authHeader || !authHeader.startsWith('Bearer ')){
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(403).json({ message: 'Access denied. No token provided.' });
     }
 
@@ -538,14 +538,14 @@ app.post('/api/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await authenticateUser(email, password);
-    
+
     if (result.success) {
       const token = jwt.sign(
         { id: result.user.id, email: result.user.email, role: result.user.role },
         JWT_SECRET,
         { expiresIn: '24h' }
       );
-      
+
       res.json({ ...result, token });
     } else {
       res.json(result);
@@ -603,7 +603,7 @@ app.post('/api/marks', (req, res) => {
 
   try {
     const { studentId, examType, subjects } = req.body;
-    
+
     const newMark = {
       id: Date.now().toString(),
       studentId,
@@ -801,7 +801,7 @@ app.post('/auth/login', async (req, res) => {
       });
     } else {
       if (result.error === 'User not registered. Please contact Admin.' ||
-          result.error === 'Registration pending Admin approval.') {
+        result.error === 'Registration pending Admin approval.') {
         return res.status(404).json({ message: 'User not found or inactive' });
       }
       res.status(401).json({ message: 'Invalid credentials' });
@@ -1198,7 +1198,7 @@ if (require.main === module) {
       process.exit(1);
     }
   })();
-} 
+}
 
 // Example usage
 async function main() {
