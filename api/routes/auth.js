@@ -33,13 +33,10 @@ router.post('/send-otp', async (req, res) => {
 
     console.log(`🔹 Generated OTP for ${email}: ${otp}`);
 
-    // Try to send email, but don't fail the request if it fails
-    try {
-      await sendOTPEmail(email, otp);
-    } catch (emailError) {
+    // Fire email in background (don't await) so API responds immediately
+    sendOTPEmail(email, otp).catch((emailError) => {
       console.error('⚠️ Email sending failed, but OTP was saved:', emailError.message);
-      // Continue anyway - OTP is saved in database
-    }
+    });
 
     return res.status(200).json({
       success: true,
