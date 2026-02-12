@@ -15,38 +15,45 @@ require('dotenv').config();
 const app = express();
 const server = createServer(app);
 
+const PORT = process.env.PORT || 5000;
+
+/* =========================
+   CORS CONFIGURATION (FIXED)
+========================= */
+
+// Allow both local + deployed frontend
+const allowedOrigins = [
+  'http://localhost:3000',
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow Postman / server-to-server
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
+    credentials: true
+  })
+);
+
+/* =========================
+   SOCKET.IO (FIXED CORS)
+========================= */
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
 
-const PORT = process.env.PORT || 5000;
-
-/* =========================
-   MIDDLEWARE
-========================= */
-
-app.use(helmet());
-app.use(cors({ origin: true, credentials: true }));
-app.use(morgan('dev'));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
-
-/* =========================
-   STATIC FILES (OPTIONAL)
-========================= */
-
-app.use(express.static(path.join(__dirname, '../../build')));
-
-/* =========================
-   SOCKET.IO
-========================= */
-
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('🔌 User connected:', socket.id);
 
   socket.on('join', (userId) => {
     socket.join(userId);
@@ -57,11 +64,20 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    console.log('❌ User disconnected:', socket.id);
   });
 });
 
 app.set('io', io);
+
+/* =========================
+   MIDDLEWARE
+========================= */
+
+app.use(helmet());
+app.use(morgan('dev'));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
 
 /* =========================
    ROUTES
@@ -92,10 +108,10 @@ app.get('/api/health', (req, res) => {
 ========================= */
 
 app.use((err, req, res, next) => {
-  console.error('❌ Error:', err);
+  console.error('❌ Error:', err.message);
   res.status(500).json({
     success: false,
-    error: 'Internal server error'
+    error: err.message || 'Internal server error'
   });
 });
 
@@ -110,36 +126,16 @@ app.use('*', (req, res) => {
    MONGODB + SERVER START
 ========================= */
 
-// 🚫 Disable mongoose buffering (CRITICAL FIX)
 mongoose.set('bufferCommands', false);
 mongoose.set('bufferTimeoutMS', 20000);
 
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 20000
     });
 
     console.log('✅ MongoDB connected');
-
-    // --- TEMPORARY FIX FOR DUPLICATE KEY ERROR ---
-    try {
-      const collection = mongoose.connection.db.collection('users');
-      const indexes = await collection.indexes();
-      const targetIndex = indexes.find(idx => idx.name === 'id_1');
-      if (targetIndex) {
-        console.log('⚠️ Found rogue index "id_1". Dropping it...');
-        await collection.dropIndex('id_1');
-        console.log('✅ Successfully dropped index "id_1"');
-      } else {
-        console.log('ℹ️ Index "id_1" not found. Good to go.');
-      }
-    } catch (err) {
-      console.error('⚠️ Error checking/dropping index:', err);
-    }
-    // ---------------------------------------------
 
     server.listen(PORT, () => {
       console.log(`🚀 EduMind API running on port ${PORT}`);
@@ -149,7 +145,7 @@ const startServer = async () => {
 
   } catch (error) {
     console.error('❌ MongoDB connection failed:', error.message);
-    process.exit(1); // HARD STOP if DB fails
+    process.exit(1);
   }
 };
 
