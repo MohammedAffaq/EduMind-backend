@@ -221,7 +221,13 @@ router.post('/login', async (req, res) => {
     }
 
     /* ---- Compare Password ---- */
+    console.log(`🔐 Verifying password for ${user.email}`);
+    console.log(`Input password: "${password}"`);
+    console.log(`Stored hash: "${user.password ? user.password.substring(0, 20) + '...' : 'MISSING'}"`);
+
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log(`✅ bcrypt.compare result: ${isMatch}`);
+
     if (!isMatch) {
       console.log('❌ Login failed: Password mismatch');
       return res.status(401).json({
