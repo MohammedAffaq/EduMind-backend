@@ -24,6 +24,8 @@ const PORT = process.env.PORT || 5000;
 // Allow both local + deployed frontend
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://localhost:5000',
+  'https://edumind.netlify.app',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
