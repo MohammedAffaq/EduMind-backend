@@ -36,7 +36,7 @@ async function sendOTPEmail(email, message, customSubject = null) {
     const isOTP = /^\d{4,6}$/.test(message);
 
     const mailOptions = {
-      from: `"EduMind Support" <${process.env.EMAIL_USER}>`,
+      from: `"EduMind Support" <${process.env.EMAIL_FROM}>`,
       to: email,
       subject: customSubject || (isOTP ? 'EduMind - Email Verification OTP' : 'EduMind - Account Notification'),
       html: isOTP ? `
